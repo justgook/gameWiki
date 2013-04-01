@@ -1,0 +1,155 @@
+@import "fonts.less";
+
+@media screen {
+
+	/* Basic styling */
+	html {
+		height: 100%;
+		overflow-y: scroll;
+	}
+
+	body {
+		background: #FFF;
+		background-image: -moz-linear-gradient(top, rgba(0,0,0,0) 95%, rgba(0,0,0,0.1) 100%);
+		background-image: -webkit-gradient(linear, left top, left bottom, color-stop(95%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.1)));
+		background-image: -webkit-linear-gradient(top, rgba(0,0,0,0) 95%,rgba(0,0,0,0.1) 100%);
+		background-image: -o-linear-gradient(top, rgba(0,0,0,0) 95%, rgba(0,0,0,0.1) 100%);
+		background-image: -ms-linear-gradient(top, rgba(0,0,0,0) 95%,rgba(0,0,0,0.1) 100%);
+		background-image: linear-gradient(top, rgba(0,0,0,0.1) 95%,rgba(0,0,0,0.1) 100%);     
+		-webkit-background-size: 100% 24px;  
+		     -o-background-size: 100% 24px;
+		        background-size: 100% 24px;
+		color: #333;
+		font: 100%/1.5 'Gentium Basic', serif;
+		margin: 0 auto;
+		padding-bottom:2em;
+		max-width: 80em;
+		width: 50%;
+	}
+	h1, h2 { color: #000 }
+	h1 {
+		text-align:center;
+	}
+	dt { font-weight:bold }
+	a {
+		color:#900;
+		font-weight:bold;
+		text-decoration:none;
+		&:hover,&:focus,&:active { text-decoration:underline }
+	}
+
+	/* Font sizes */
+	h1 { .f60 }
+	h2 { .f30 }
+	h3 { .f18 }
+	ul,ol { margin: 1.5em 0 0 }
+	p,li,dt,dd {
+		.font(16,24);
+	}
+	dd { margin-top:0 }
+	li { margin:0 }
+	blockquote { font-style:italic; margin: 0 1.5em; }
+	code { font-size:16px }
+
+	/* Generic font-size classes. These names are obviously non-semantic and purely to show the font-size being set for each one. */
+	.f10 {
+		.font(10,24,1,1.2); // Mixin formula: font-size; line-height; margin multiplier; line-height reducer
+		// For smaller font-sizes, we'll decrease the line-height a bit (the last figure, 1.2)
+	}
+	.f11 {
+		.font(11,24,1,1.2);
+	}
+	.f12 {
+		.font(12,24);
+	}
+	.f13 {
+		.font(13,24);
+	}
+	.f14 {
+		.font(14,24);
+	}
+	.f15 {
+		.font(15,24);
+	}
+	.f16 {
+		.font(16,24);
+	}
+	.f18 {
+		.font(18,24);
+	}
+	.f21 {
+		.font(21,24);
+	}
+	.f24 {
+		.font(24,24);
+	}
+	.f30 {
+		.font(30,48);
+	}
+	.f36 {
+		.font(36,48);
+	}
+	.f42 {
+		.font(42,48);
+	}
+	.f48 {
+		.font(48,48);
+	}
+	.f54 {
+		.font(54,72);
+	}
+	.f60 {
+		.font(60,72);
+	}
+	.f66 {
+		.font(66,72);
+	}
+	/* From here on, I'm setting the top margin of each class to be double the default line-height, i.e. 48px instead of 24px because I think that for larger sized blocks of text, a gap of a single line-height's height isn't enough to separate the headings from the rest of the content. */
+	.f72 {
+		.font(72,72,2);
+	}
+	.f84 {
+		.font(84,96,2);
+	}
+	.f96 {
+		.font(96,96,2);
+	}
+	.f108 {
+		.font(108,120,2);
+	}
+	.f120 {
+		.font(120,120,2);
+	}
+
+	/* Boxes */
+	.box {
+		background-color:rgba(0,0,0,.1);
+		border:0 solid #999;
+		padding:0 15px;
+		h3:first-child,p:first-child { margin-top:0 }
+	}
+	.box+.box { margin-top:1.5em }
+
+	.two {
+		.boxes(1,2,2,2); // Mixin formula: padding-top, padding-bottom, border-top, border-bottom
+	}
+
+	.three {
+		.boxes(.5,.5,5,3);
+	}
+
+	.four {
+		.boxes(.5,.5,3,3);
+		border-left-width:3px;
+		border-right-width:3px;
+	}
+
+	.five {
+		.boxes(.5,.5);
+	}
+
+	.round {
+		border-radius:8px;
+	}
+
+}

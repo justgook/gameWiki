@@ -1,0 +1,97 @@
+html, body {
+	border: 0;
+	font-family: "Helvetica-Neue", "Helvetica", Arial, sans-serif;
+	line-height: 1.5;
+	margin: 0;
+	padding: 0;
+}
+ 
+div, span, object, iframe, img, table, caption, thead, tbody,
+tfoot, tr, tr, td, article, aside, canvas, details, figure, hgroup, menu,
+nav, footer, header, section, summary, mark, audio, video {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+ 
+h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, address, cit, code,
+del, dfn, em, ins, q, samp, small, strong, sub, sup, b, i, hr, dl, dt, dd,
+ol, ul, li, fieldset, legend, label {
+  border: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  margin: 0;
+  padding: 0;
+}
+ 
+article, aside, canvas, figure, figure img, figcaption, hgroup,
+footer, header, nav, section, audio, video {
+	display: block;
+}
+ 
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  caption, th, td {
+    text-align: left;
+    vertical-align: middle;
+  }
+}
+ 
+a img {
+  border: 0;
+}
+ 
+:focus {
+  outline: 0;
+}
+
+@race1:#262626;
+@race2:#339933;
+@race3:#de9317;
+@race4:#A05000;
+@race5:#6e115f;
+@race6:#fdfdfd;
+@race7:#e1db01;
+@race8:#E51400;
+@race9:#034888;
+
+
+@import "grid.less";
+.main_menu {
+  .row;
+  .theWidth(9,18);
+  /*background:#F00;*/
+}
+.main_menu li{
+  .grid_1;
+  .column;
+  text-align:center;
+    &:nth-child(1){
+      background-color: @race1
+    }
+    &:nth-child(2){
+      background-color: @race2
+    }
+    &:nth-child(3){
+      background-color: @race3
+    }
+    &:nth-child(4){
+      background-color: @race4
+    }
+    &:nth-child(5){
+      background-color: @race5
+    }
+    &:nth-child(6){
+      background-color: @race6
+    }
+    &:nth-child(7){
+      background-color: @race7
+    }
+    &:nth-child(8){
+      background-color: @race8
+    }
+    &:nth-child(9){
+      background-color: @race9
+    }
+}

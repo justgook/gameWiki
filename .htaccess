@@ -1,0 +1,10 @@
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+#Default Rewrite To index.php
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteRule ^ index.php [L]
+</IfModule>
+php_flag xdebug.default_enable Off
+php_flag xdebug.overload_var_dump Off
+php_flag xdebug.show_exception_trace Off
+php_value xdebug.trace_format 1
