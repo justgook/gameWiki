@@ -38,6 +38,7 @@ $.fn.serializeObject = function ()
     initialize: function () {
       var that = this;
       this.template = Mustache.compile($(this.template)[0].innerHTML);
+      this.listenTo(this.collection, "add", this.render);
       _.bindAll(this, 'render');
     },
     render: function () {
@@ -74,7 +75,8 @@ $.fn.serializeObject = function ()
     events:{
       "submit form": "createWikiPost"
     },
-    initialize:function () {
+    initialize:function (app) {
+      this.app = app.app;
       this.template = Mustache.compile($(this.template)[0].innerHTML);
       _.bindAll(this, 'render');
     },
@@ -83,8 +85,9 @@ $.fn.serializeObject = function ()
     },
     createWikiPost: function (e) {
       var data = $(e.target).serializeObject();
-      //TODO PUSH TO MAIN COLLECTION!
-      (new Wiki(data)).save();
+      var wikiModel = new Wiki(data);
+      this.app.collection.add(wikiModel);
+      wikiModel.save();
       return false;
     }
   });
@@ -98,8 +101,8 @@ $.fn.serializeObject = function ()
     },
     app: null,
     initialize: function (app) {
-      this.app = app;
-      this.modal = new ModalBox();
+      this.app = app.app;
+      this.modal = new ModalBox({app:this.app});
       this.app.collection = new WikiList;
     },
     wikiList: function wikiLiatRouter () {
@@ -137,8 +140,7 @@ $.fn.serializeObject = function ()
     views: {},
     initialize: function () {
       this.containers = {main: $("#content")};
-      // this.views = 
-      new Router(this);
+      new Router({app:this});
       Backbone.history.start({ pushState: true});
       $(document).on("click", "a[href]:not([data-bypass])", function (evt) {
         var href = { prop: $(this).prop("href"), attr: $(this).attr("href") };

@@ -4,6 +4,7 @@
 /composer.phar
 /vendor
 /nbproject
+/bin
 composer.lock
 phpunit.xml
 .vagrant

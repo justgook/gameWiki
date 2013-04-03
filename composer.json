@@ -1,8 +1,52 @@
 {
     "require": {
+        "php": ">=5.3.3",
         "slim/slim": "2.*",
         "slim/extras": "2.*",
-        "twig/twig": "1.*",
-        "doctrine/orm": "2.3.3"
+        "slim/strong": "dev-master",
+        "twig/twig"    : "1.*",
+        "doctrine/orm": "2.3.3",
+        "twitter/bootstrap": "dev-master",
+        "littke/inspiritas-bootstrap": "dev-master"
+
+    },
+    "repositories": [
+    {
+        "type": "package",
+        "package": {
+            "version": "dev-master",
+            "name": "twitter/bootstrap",
+            "source": {
+                "url": "git://github.com/twitter/bootstrap.git",
+                "type": "git",
+                "reference": "v2.0.3"
+            },
+            "dist":{
+                "url":"http://twitter.github.com/bootstrap/assets/bootstrap.zip",
+                "type":"zip"
+            }
+        }
+    },
+
+
+    {
+        "type": "package",
+        "package": {
+            "version": "dev-master",
+            "name": "littke/inspiritas-bootstrap",
+            "dist":{
+                "url":"https://github.com/littke/inspiritas-bootstrap/archive/master.zip",
+                "type":"zip"
+            },
+            "source": {
+                "url": "git://github.com/littke/inspiritas-bootstrap.git",
+                "type": "git",
+                 "reference":"master"
+            }
+        }
     }
+
+
+    ],
+    "minimum-stability": "dev"
 }

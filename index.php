@@ -1,16 +1,21 @@
 <?php
 require 'vendor/autoload.php';
 
-session_cache_limiter(false);
-session_start();
+
 // Setup custom Twig view
-$cusomView = new \Slim\Extras\Views\Twig();
+$twigView = new \Slim\Extras\Views\Twig();
+\Slim\Extras\Views\Twig::$twigTemplateDirs[] = __DIR__.'/templates';
+
+//applying Assetic to twig
 
 // Instantiate application
 $app = new \Slim\Slim(array(
-    'view' => $cusomView,
+    'view' => $twigView,
     'mode' => 'development'
 ));
+
+
+
 $app->em = require_once 'src/doctrine-config.php';
 
 $app->get('/', function () use($app) {
