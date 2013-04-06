@@ -7,8 +7,8 @@
         "twig/twig"    : "1.*",
         "doctrine/orm": "2.3.3",
         "twitter/bootstrap": "dev-master",
-        "littke/inspiritas-bootstrap": "dev-master"
-
+        "littke/inspiritas-bootstrap": "dev-master",
+        "aroc/Bootstrap-Scroll-Modal": "dev-master"
     },
     "repositories": [
     {
@@ -44,7 +44,24 @@
                  "reference":"master"
             }
         }
+    },
+    {
+        "type": "package",
+        "package": {
+            "version": "dev-master",
+            "name": "aroc/Bootstrap-Scroll-Modal",
+            "dist":{
+                "url":"https://github.com/aroc/Bootstrap-Scroll-Modal/archive/master.zip",
+                "type":"zip"
+            },
+            "source": {
+                "url": "git://github.com/aroc/Bootstrap-Scroll-Modal.git",
+                "type": "git",
+                 "reference":"master"
+            }
+        }
     }
+
 
 
     ],

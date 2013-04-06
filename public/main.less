@@ -7,3 +7,28 @@
 @race7:#e1db01;
 @race8:#E51400;
 @race9:#034888;
+button, .btn{
+ -moz-user-select: -moz-none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+
+   /*
+     Introduced in IE 10.
+     See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
+   */
+   -ms-user-select: none;
+   user-select: none;
+}
+
+body .modal-wrapper, body .modal {
+  width: 90% !important; /* desired relative width */
+  left: 5%; /* (100%-width)/2 */
+  margin: auto auto auto auto; /* place center */
+}
+body .modal.fade.in  {
+  top: auto; /* fade in to correct spot */
+}
+
+body .modal form {
+  margin-bottom:0
+}
