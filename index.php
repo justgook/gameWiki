@@ -6,6 +6,13 @@ require 'vendor/autoload.php';
 $twigView = new \Slim\Extras\Views\Twig();
 \Slim\Extras\Views\Twig::$twigTemplateDirs[] = __DIR__.'/templates';
 
+
+function twig_include_raw(Twig_Environment $env, $template) {
+    return $env->getLoader()->getSource($template);
+}
+$twigView->getEnvironment()->addFunction('include_raw', new Twig_Function_Function('twig_include_raw', array('needs_environment' => true)));
+
+
 //applying Assetic to twig
 
 // Instantiate application

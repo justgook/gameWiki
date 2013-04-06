@@ -1,0 +1,35 @@
+<form method="post" class="form-horizontal">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal" >&times;</a>
+    <h3>WikiPost {{ editMode }} </h3>
+  </div>
+  <div class="modal-body">
+    <ul class="nav nav-tabs">
+      <li class="active"><a data-target="#wikiForm-edit" data-toggle="tab">Edit</a></li>
+      <li><a data-target="#wikiForm-preview" data-toggle="tab">Preview</a></li>
+      <li><a data-target="#wikiForm-help" data-toggle="tab">Help</a></li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane fade in active" id="wikiForm-edit">
+        <div class="input-append">
+          <input class="span2" name="title" type="text">
+          <button class="btn" type="button">Check</button>
+        </div>
+        <div class="control-group">
+          <label>body </label>
+          <textarea class="input-block-level" rows="20" name="body"></textarea>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="wikiForm-preview">
+        Here Goes Preview
+      </div>
+      <div class="tab-pane fade" id="wikiForm-help">
+        Here Goes Help
+      </div>
+    </div>
+  </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-primary">Create</button>
+      <button type="button" data-dismiss="modal" class="btn">Cancel</button>
+    </div>
+</form>

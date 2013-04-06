@@ -130,7 +130,6 @@ $.fn.serializeObject = function ()
     // else
     //   @navigate '', true
     previous: function(){
-      console.log(this.history);
       if (history.length > 1){
         this.navigate(this.history[this.history.length-2], true);
       } else {

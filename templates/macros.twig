@@ -1,0 +1,5 @@
+{% macro mustache_script(id, file) %}
+<script id="{{ id }}" type="text/x-mustache-template">
+{{ include_raw(file)|raw }}
+</script>
+{% endmacro %}

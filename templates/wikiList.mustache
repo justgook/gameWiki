@@ -1,0 +1,12 @@
+            <header>
+                <div class="pull-right">
+                    <a href="/create/wiki" class="btn btn-small">Create New</a>
+                    <a class="btn btn-small">Edit</a>
+                </div>
+                <h1>List Pages</h1>
+            </header>
+            <ul>
+            {{#posts}}
+                <li><a href="{{linkToTitle}}">{{title}}</a></li>
+            {{/posts}}
+            </ul>
