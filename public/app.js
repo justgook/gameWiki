@@ -57,12 +57,16 @@ $.fn.serializeObject = function ()
     // el:document.createDocumentFragment,
     template: "#WikiItemView",
     model:Wiki,
-    initialize: function () {
+    initialize: function (args) {
+      this.app = args.app;
       this.template = Mustache.compile($(this.template)[0].innerHTML);
       _.bindAll(this, 'render');
     },
     render: function () {
-      $(this.el).html(this.template(this.model.toJSON()));
+      // this.$("#wikiForm-preview").html();
+      var data = this.model.toJSON();
+      data.body = this.app.md2html(data.body);
+      $(this.el).html(this.template(data));
     },
     changeModel: function (model) {
       this.model = model;
@@ -74,7 +78,8 @@ $.fn.serializeObject = function ()
     template:"#WikiCreate",
     el: "#modal",
     events:{
-      "submit form": "createWikiPost"
+      "submit form": "createWikiPost",
+      'click [data-target="#wikiForm-preview"]' : "updatePreview"
     },
 
     initialize:function (app) {
@@ -85,6 +90,12 @@ $.fn.serializeObject = function ()
         that.app.route.previous();
       });
       _.bindAll(this, 'render');
+      _.bindAll(this, 'updatePreview');
+    },
+
+    updatePreview: function () {
+      this.$("#wikiForm-preview").html(this.app.md2html(this.$("textarea:eq(0)").val()));
+      // this.md2html()
     },
 
     render: function() {
@@ -151,7 +162,7 @@ $.fn.serializeObject = function ()
       var model = new Wiki({id:id});
       this.app.collection.add(model);
       if (!that.app.views.itemView) {
-        that.app.views.itemView = new WikiItemView({model:model, el:that.app.containers.main});
+        that.app.views.itemView = new WikiItemView({model:model, el:that.app.containers.main, app: this.app});
       } else {
         that.app.views.itemView.changeModel(model);
       }
@@ -168,6 +179,10 @@ $.fn.serializeObject = function ()
     events: {},
     views: {},
     initialize: function () {
+      var converter = new Showdown.converter();
+      this.md2html = converter.makeHtml;
+      // alert(('#hello markdown!'));
+
       this.containers = {main: $("#content")};
       this.route = new Router({app:this});
       Backbone.history.start({ pushState: true});
