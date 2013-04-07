@@ -76,7 +76,7 @@ $.fn.serializeObject = function ()
   //Modal box for create and update wiki posts
   var ModalBox = Backbone.View.extend({
     template:"#WikiCreate",
-    model:Wiki,
+    model: Wiki,
     el: "#modal",
     events:{
       "submit form": "createWikiPost",
@@ -109,8 +109,7 @@ $.fn.serializeObject = function ()
     createWikiPost: function (e) {
       var that = this;
       var data = $(e.target).serializeObject();
-
-      var wikiModel = (this.model || new this.model).set(data);
+      var wikiModel = (this.model || new Wiki).set(data);
       this.app.collection.add(wikiModel);
       wikiModel.save(null,{
         success : function (model, response) {
