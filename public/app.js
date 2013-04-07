@@ -45,7 +45,7 @@ $.fn.serializeObject = function ()
       var cTemplate = this.template({
         posts:this.collection.toJSON(),
         linkToTitle: function () {
-          return "/wiki/" + this.id;
+          return "/wiki/"+ this.title + "-" + this.id;
         }
       });
       $(this.el).html(cTemplate);
@@ -76,12 +76,15 @@ $.fn.serializeObject = function ()
   //Modal box for create and update wiki posts
   var ModalBox = Backbone.View.extend({
     template:"#WikiCreate",
+    model:Wiki,
     el: "#modal",
     events:{
       "submit form": "createWikiPost",
       'click [data-target="#wikiForm-preview"]' : "updatePreview"
     },
-
+    changeModel: function (model) {
+      this.model = model;
+    },
     initialize:function (app) {
       var that = this;
       this.app = app.app;
@@ -95,19 +98,24 @@ $.fn.serializeObject = function ()
 
     updatePreview: function () {
       this.$("#wikiForm-preview").html(this.app.md2html(this.$("textarea:eq(0)").val()));
-      // this.md2html()
     },
 
     render: function() {
-      $(this.el).html(this.template({editMode:"create"}));
+      var data = this.model ? this.model.toJSON() : {title:"", body:"", id:""};
+      $(this.el).html(this.template(data));
       this.$el.modal({ dynamic: true });
     },
 
     createWikiPost: function (e) {
+      var that = this;
       var data = $(e.target).serializeObject();
-      var wikiModel = new Wiki(data);
+      var wikiModel = this.model.set(data);
       this.app.collection.add(wikiModel);
-      wikiModel.save();
+      wikiModel.save(null,{
+        success : function (model, response) {
+          that.$el.modal("hide");
+        }
+      });
       return false;
     }
   });
@@ -117,7 +125,8 @@ $.fn.serializeObject = function ()
     routes: {
       "":                     "wikiList",
       "wiki/:item":           "wikiItem",
-      "create/wiki":          "wikiCreate"
+      "create/wiki":          "wikiCreate",
+      "wiki/edit/:item":      "wikiEdit"
     },
     app: null,
     initialize: function (app) {
@@ -171,13 +180,24 @@ $.fn.serializeObject = function ()
       });
     },
     wikiCreate: function wikiCreatRouter () {
+      this.modal.changeModel(null);
+      this.modal.render();
+    },
+    wikiEdit: function wikiCreatRouter (item) {
+      this.modal.changeModel(this.app.collection.get(item));
       this.modal.render();
     }
   });
 
   var AppView = Backbone.View.extend({
-    events: {},
+    events: {"click a": "selectNav"},
     views: {},
+    el:document,
+    selectNav: function (e) {
+      var $target = $(e.target);
+      $target.closest('ul').find('li.selected').removeClass("selected");
+      $target.closest('li').addClass("selected");
+    },
     initialize: function () {
       var converter = new Showdown.converter();
       this.md2html = converter.makeHtml;
@@ -186,7 +206,7 @@ $.fn.serializeObject = function ()
       this.containers = {main: $("#content")};
       this.route = new Router({app:this});
       Backbone.history.start({ pushState: true});
-      $(document).on("click", "a[href]:not([data-bypass])", function (evt) {
+      $(document).on("click.historyNav", "a[href]:not([data-bypass])", function (evt) {
         var href = { prop: $(this).prop("href"), attr: $(this).attr("href") };
         root = location.protocol + "//" + location.host + "/";
         if(href.prop.slice(0, root.length) === root) {

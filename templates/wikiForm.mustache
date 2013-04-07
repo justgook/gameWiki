@@ -1,7 +1,10 @@
 <form method="post" class="form-horizontal">
   <div class="modal-header">
     <a class="close" data-dismiss="modal" >&times;</a>
-    <h3>WikiPost {{ editMode }} </h3>
+    <h3>WikiPost
+      {{#id}}edit{{/id}}
+      {{^id}}create({{/id}}
+    </h3>
   </div>
   <div class="modal-body">
     <ul class="nav nav-tabs">
@@ -12,24 +15,26 @@
     <div class="tab-content">
       <div class="tab-pane fade in active" id="wikiForm-edit">
         <div class="input-append">
-          <input class="span2" name="title" type="text">
+          <label>Title</label>
+          <input class="span2" name="title" type="text" value="{{title}}">
           <button class="btn" type="button">Check</button>
         </div>
         <div class="control-group">
-          <label>body </label>
-          <textarea class="input-block-level" rows="20" name="body"></textarea>
+          <label>Body </label>
+          <textarea class="input-block-level" rows="15" name="body">{{body}}</textarea>
         </div>
       </div>
-      <div class="tab-pane fade" id="wikiForm-preview">
-        Here Goes Preview
-      </div>
+      <div class="tab-pane fade" id="wikiForm-preview"></div>
       <div class="tab-pane fade" id="wikiForm-help">
         Here Goes Help
       </div>
     </div>
   </div>
     <div class="modal-footer">
-      <button type="submit" class="btn btn-primary">Create</button>
+      <button type="submit" class="btn btn-primary">
+        {{#id}}Save Changes{{/id}}
+        {{^id}}Create({{/id}}
+      </button>
       <button type="button" data-dismiss="modal" class="btn">Cancel</button>
     </div>
 </form>

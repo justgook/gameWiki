@@ -33,7 +33,7 @@ $app->get('/create/wiki', function () use($app) {
     return $app->render("main.twig");
 });
 
-$app->get('/wiki/:id', function ($id) use($app) {
+$app->get('/wiki/(:title)-:id', function ($title, $id) use($app) {
     return $app->render("main.twig");
 });
 
@@ -49,7 +49,7 @@ $app->get('/data/wiki', function () use($app) {
 });
 
 //get one WikiPost by id
-$app->get('/data/wiki/:id', function ($id) use($app) {
+$app->get('/data/wiki/(:title-):id', function ($title, $id) use($app) {
     $wikiPost = $app->em->find("Entities\WikiPost", (int)$id);//$app->em->getRepository("Entities\WikiPost")->findOneByTitle(str_replace("_", " ", $title));
     if (!$wikiPost) {
         $app->flash('error', 'Login required');
@@ -67,22 +67,42 @@ $app->get('/data/wiki/:id', function ($id) use($app) {
 
 
 //CREATE NEW POST
-$app->post('/data/wiki', function ($id = "default") use($app) {
+$app->post('/data/wiki', function () use($app) {
     $data = json_decode($app->request()->getBody());
     $wikiPost = new \Entities\WikiPost();
     $wikiPost->setTitle($data->title);
     $wikiPost->setBody($data->body);
     $app->em->persist($wikiPost);
     $app->em->flush();
+    echo json_encode(array( 'id' => $wikiPost->getId() ));
 });
 
-$app->put('/wiki/update', function ($id = "default") use($app) {
-    $wikiPost = $app->em->find('\Entities\WikiPost', 1);
-    print_r($wikiPost->getTitle());
-    $wikiPost->setTitle("default");
+//UPDATE POST
+$app->put('/data/wiki/:id', function ($id) use($app) {
+    $data = json_decode($app->request()->getBody());
+    $wikiPost = $app->em->find('\Entities\WikiPost', (int)$id);
+    //TODO make this behavior insede module (after rebuild wiki to module)
+    $wikiPostVersion = new \Entities\WikiPostVersion($wikiPost);
+    $app->em->persist($wikiPostVersion);
+
+    $wikiPost->setTitle($data->title);
+    $wikiPost->setBody($data->body);
     $app->em->flush();
-    print_r($wikiPost->getTitle());
+    echo json_encode(array( 'id' => $wikiPost->getId() ));
 });
+
+$app->get("/updatetest", function () use($app) {
+
+    $wikiPost = $app->em->find('\Entities\WikiPost', 2);
+
+    $wikiPost->setTitle("dsadsa");
+    $wikiPost->setBody("asdsad".time());
+        
+    $app->em->flush();
+
+});
+
+
 
 
 $app->run();

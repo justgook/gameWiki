@@ -1,5 +1,6 @@
 <?php
 namespace Entities;
+use Doctrine\Common\Collections\Collectio\ArrayCollection;
 /**
  * @Entity
  * @HasLifeCycleCallbacks
@@ -30,30 +31,16 @@ class WikiPost
      */
     private $version = 0;
 
-    /**
-     * @OneToMany(targetEntity="WikiPostVersion", mappedBy="post", cascade={"all"})
-     */
-    private $auditLog = array();
+    // private $auditLog;
 
-    /**
-     * @PreUpdate
-     */
-    public function logVersion()
-    {
-        echo "<br>WikiPost::logVersion";
-        print_r(count($this->auditLog));
-        echo "<br>";
+//     public function logVersion()
+//     {
+//         $this->auditLog[] = new WikiPostVersion($this);
+//     }
 
-        $this->auditLog[] = new WikiPostVersion($this);
-        print_r(count($this->auditLog));
-        echo "<br>";
-// die;
-        // echo "<br>";
-        // print_r($this->auditLog[0]->getTitle());
-        // echo "<br>";
-        // die("dasdasdsa");
-        // print_r(count($this->auditLog));
-    }
+    // public function __construct (){
+    //     $this->auditLog = new \Doctrine\Common\Collections\ArrayCollection();
+    // }
 
     public function getId(){
         return $this->id;
@@ -78,10 +65,6 @@ class WikiPost
 
     public function getCurrentVersion (){
         return $this->version;
-    }
-
-    public function setVersion ($version) {
-        $this->version = $version;
     }
 }
 
