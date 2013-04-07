@@ -109,7 +109,8 @@ $.fn.serializeObject = function ()
     createWikiPost: function (e) {
       var that = this;
       var data = $(e.target).serializeObject();
-      var wikiModel = this.model.set(data);
+
+      var wikiModel = (this.model || new this.model).set(data);
       this.app.collection.add(wikiModel);
       wikiModel.save(null,{
         success : function (model, response) {
