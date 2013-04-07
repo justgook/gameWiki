@@ -199,7 +199,7 @@ $.fn.serializeObject = function ()
       $target.closest('li').addClass("selected");
     },
     initialize: function () {
-      var converter = new Showdown.converter();
+      var converter = new Showdown.converter({ extensions: ['table'] });
       this.md2html = converter.makeHtml;
       // alert(('#hello markdown!'));
 
