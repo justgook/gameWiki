@@ -1,6 +1,8 @@
 /.settings
 /.project
 /.buildpath
+/cache/*
+/data/*
 /composer.phar
 /vendor
 /nbproject

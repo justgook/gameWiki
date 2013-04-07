@@ -1,5 +1,10 @@
 <IfModule mod_rewrite.c>
 	RewriteEngine On
+
+#Image Procesor
+	RewriteCond %{REQUEST_FILENAME} ((.*?)\.(gif|png|jpg|jpeg))&crop=(\d+)x(\d+) [NC]
+	RewriteRule (.*) timthumb.php?src=%1&w=%4&h=%5 [L]
+
 #Default Rewrite To index.php
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteRule ^ index.php [L]
