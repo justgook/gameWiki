@@ -124,7 +124,7 @@ $.fn.serializeObject = function ()
   var Router = Backbone.Router.extend({
     routes: {
       "":                     "wikiList",
-      "wiki/:item":           "wikiItem",
+      "wiki/:title-:id":      "wikiItem",
       "create/wiki":          "wikiCreate",
       "wiki/edit/:item":      "wikiEdit"
     },
@@ -166,10 +166,10 @@ $.fn.serializeObject = function ()
       this.app.views.listView.render();
       }
     },
-    wikiItem: function wikiLiatRouter (id) {
+    wikiItem: function wikiLiatRouter (title, id) {
       var that = this;
-      var model = new Wiki({id:id});
-      this.app.collection.add(model);
+      var model = this.app.collection.get(id) || new Wiki({id:id});
+      this.app.collection.set(model,{remove: false});
       if (!that.app.views.itemView) {
         that.app.views.itemView = new WikiItemView({model:model, el:that.app.containers.main, app: this.app});
       } else {
