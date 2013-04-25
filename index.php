@@ -26,44 +26,57 @@ $app = new \Slim\Slim(array(
 $app->em = require_once 'src/doctrine-config.php';
 
 $app->get('/', function () use($app) {
-    return $app->render("main.twig");
+    $app->redirect("/wiki");
 });
 
-$app->get('/create/wiki', function () use($app) {
-    return $app->render("main.twig");
-});
+// $app->get('/create/wiki', function () use($app) {
+//     return $app->render("main.twig");
+// });
 
-$app->get('/wiki/(:title)-:id', function ($title, $id) use($app) {
-    return $app->render("main.twig");
-});
+// $app->get('/wiki/(:title)-:id', function ($title, $id) use($app) {
+//     return $app->render("main.twig");
+// });
+
+// \Slim\Route::setDefaultConditions(array(
+//     'json' => '\.json'
+// ));
 
 
 //get list of wikiPosts
-$app->get('/data/wiki', function () use($app) {
+$app->get('/wiki', function () use($app) {
     $query = $app->em->createQuery("SELECT w FROM Entities\WikiPost AS w");
     $return = array();
     foreach ($query->getResult() as $item) {
         $return[] = array("title" => $item->getTitle(),"id" => $item->getId());
     }
-    echo json_encode($return);
-});
+    if ($app->request()->isAjax()) {
+        $app->contentType('application/json');
+        echo json_encode($return);
+    } else {
+        return $app->render("main.twig");
+    }
+});//->conditions(array('id' => '\d+','json1312' => '\.json'));
 
 //get one WikiPost by id
-$app->get('/data/wiki/(:title-):id', function ($title, $id) use($app) {
+$app->get('/wiki/(:title-):id', function ($title, $id) use($app) {
     $wikiPost = $app->em->find("Entities\WikiPost", (int)$id);//$app->em->getRepository("Entities\WikiPost")->findOneByTitle(str_replace("_", " ", $title));
     if (!$wikiPost) {
         $app->flash('error', 'Login required');
         $app->halt(404,"Not Found wiki post");
     }
-    //TODO test is it ajax request only than set josn
-    $app->contentType('application/json');
-    echo json_encode(array(
-        "id" => $wikiPost->getId(),
-        "title" => $wikiPost->getTitle(),
-        "body" => $wikiPost->getBody()
-        )
-    );
-});
+    //Ends with .json
+    if ($app->request()->isAjax()) {
+        $app->contentType('application/json');
+        echo json_encode(array(
+            "id" => $wikiPost->getId(),
+            "title" => $wikiPost->getTitle(),
+            "body" => $wikiPost->getBody()
+            )
+        );
+    } else {
+        return $app->render("main.twig");
+    }
+});//->conditions(array('id' => '\d+','json1312' => '\.json'));
 
 
 //CREATE NEW POST

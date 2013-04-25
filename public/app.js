@@ -14,20 +14,42 @@ $.fn.serializeObject = function ()
     });
     return o;
 };
+
 (function ($) {
-  // **ListView class**: Our main app view.
+    // Backbone.sync = function(method, model, options) {
+    //   console.log(options.url);
+    //    //  options.url += ".json";
+    //    // Backbone.sync(method, model, options);
+    // }
+  
+    // Backbone.Model.prototype.url = function() {
+    //   var base = _.result(this, 'urlRoot') || _.result(this.collection, 'url') || urlError();
+    //   alert("Das");
+    //   if (this.isNew()) return base;
+    //   alert("Dasdsa");
+    //   return base + (base.charAt(base.length - 1) === '/' ? '' : '/') + encodeURIComponent(this.id) + (this.urlExtension || this.collection.urlExtension || '');
+    // };
+    // var old_fetch = Backbone.Collection.prototype.fetch;
+    // Backbone.Collection.prototype.fetch = function() {
+    //   old_fetch.apply(this, arguments);
+    // };
+    
   var Wiki = Backbone.Model.extend({
     // urlRoot:"/data/wiki",
     defaults:{
       id: null,
       title: null,
       body: null
-    },
+    }
   });
   //wiki collection
   var WikiList = Backbone.Collection.extend({
     model: Wiki,
-    url: '/data/wiki'
+    url: '/wiki',
+    // urlExtension:".json",
+    // fetch:function(options){
+    //   Backbone.Collection.prototype.fetch.call(this,{url:this.url + this.urlExtension});
+    // }
   });
 
 
@@ -123,7 +145,7 @@ $.fn.serializeObject = function ()
   //Router 
   var Router = Backbone.Router.extend({
     routes: {
-      "":                     "wikiList",
+      "wiki":                 "wikiList",
       "wiki/:title-:id":      "wikiItem",
       "create/wiki":          "wikiCreate",
       "wiki/edit/:item":      "wikiEdit"
@@ -201,8 +223,6 @@ $.fn.serializeObject = function ()
     initialize: function () {
       var converter = new Showdown.converter({ extensions: ['table'] });
       this.md2html = converter.makeHtml;
-      // alert(('#hello markdown!'));
-
       this.containers = {main: $("#content")};
       this.route = new Router({app:this});
       Backbone.history.start({ pushState: true});
