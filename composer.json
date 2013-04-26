@@ -1,4 +1,9 @@
 {
+    "autoload": {
+        "psr-0": {
+            "MyApp": "src/"
+        }
+    },
     "require": {
         "php": ">=5.3.3",
             "slim/slim": "2.*",

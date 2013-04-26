@@ -29,19 +29,6 @@ $app->get('/', function () use($app) {
     $app->redirect("/wiki");
 });
 
-// $app->get('/create/wiki', function () use($app) {
-//     return $app->render("main.twig");
-// });
-
-// $app->get('/wiki/(:title)-:id', function ($title, $id) use($app) {
-//     return $app->render("main.twig");
-// });
-
-// \Slim\Route::setDefaultConditions(array(
-//     'json' => '\.json'
-// ));
-
-
 //get list of wikiPosts
 $app->get('/wiki', function () use($app) {
     $query = $app->em->createQuery("SELECT w FROM Entities\WikiPost AS w");
@@ -80,7 +67,7 @@ $app->get('/wiki/(:title-):id', function ($title, $id) use($app) {
 
 
 //CREATE NEW POST
-$app->post('/data/wiki', function () use($app) {
+$app->post('/wiki', function () use($app) {
     $data = json_decode($app->request()->getBody());
     $wikiPost = new \Entities\WikiPost();
     $wikiPost->setTitle($data->title);
@@ -91,29 +78,17 @@ $app->post('/data/wiki', function () use($app) {
 });
 
 //UPDATE POST
-$app->put('/data/wiki/:id', function ($id) use($app) {
+$app->put('/wiki/:id', function ($id) use($app) {
     $data = json_decode($app->request()->getBody());
     $wikiPost = $app->em->find('\Entities\WikiPost', (int)$id);
-    //TODO make this behavior insede module (after rebuild wiki to module)
     $wikiPostVersion = new \Entities\WikiPostVersion($wikiPost);
     $app->em->persist($wikiPostVersion);
-
     $wikiPost->setTitle($data->title);
     $wikiPost->setBody($data->body);
     $app->em->flush();
     echo json_encode(array( 'id' => $wikiPost->getId() ));
 });
 
-$app->get("/updatetest", function () use($app) {
-
-    $wikiPost = $app->em->find('\Entities\WikiPost', 2);
-
-    $wikiPost->setTitle("dsadsa");
-    $wikiPost->setBody("asdsad".time());
-        
-    $app->em->flush();
-
-});
 
 
 
